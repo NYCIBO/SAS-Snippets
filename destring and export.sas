@@ -1,0 +1,12 @@
+Data test;
+	set Rpadt15x;
+	KEEP BORO BLOCK LOT X Y;
+	X=input(XCOORD,8.);
+	Y=input(YCOORD,8.);
+RUN;
+
+PROC CONTENTS DATA=test;
+RUN;
+
+PROC EXPORT DATA=Test(KEEP=BORO BLOCK LOT X Y OBS=2000) OUTFILE="Y:\CRT CEP Evaluation\Data\GIS\dba1" DBMS= DBF REPLACE;
+RUN;
