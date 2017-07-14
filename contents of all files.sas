@@ -24,7 +24,7 @@
   %do %while(%superq(data) ne %str());
     /* This option just gives warning on the missing vars in KEEP. It's reset after this step*/
 	options dkricond=nowarn;
-	ods select Variables;
+	ods select Variables;	/*only show variables*/
 	footnote 'The file is: ' &data;
 	proc contents data=inlib.&data(keep=&keepvars);
     run;
@@ -37,7 +37,7 @@
 
 
 /* Example useage
-%ContentsAll(datalist=RPADF17x RPADF16x);
+%ContentsAll(datalist=RPADF17x RPADF16x, keepvars=CORNER);
 */
 
 /*proc Qcew_geo.contents
