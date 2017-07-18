@@ -10,8 +10,8 @@ Usage: The testlength macro loops over a base record length (baselrecl) +range f
 * Given that the loop is too long, normal log will fill up and you'll keep getting errors if the below is not in effect.;
 proc printto log="Y:\CRT CEP Evaluation\Programs\findRL.log";
 run;
-proc printto;
-run;
+/*proc printto;
+run;*/
 options nonotes nosource nosource2;
 options notes source source2 errors=20;
 %LET CUR=2001;
@@ -73,3 +73,5 @@ libname ebcdic "M:\Large Agency Data\Property Tax\Original DOF Files\Raw Files\R
 %testlength(rpadfull="M:\Large Agency Data\Property Tax\Original DOF Files\Raw Files\RPAD\AVXPRODN.BKUP.AVX69301.S010102.D0102"
 		,baselrecl=5649, range=5, recfm=F);
 options notes source source2 errors=20;
+proc printto;
+run;
