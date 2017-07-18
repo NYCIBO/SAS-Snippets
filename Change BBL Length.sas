@@ -17,4 +17,8 @@
 %mend;
 
 /* Change the length of BORO BLOCK LOT to 6 in newer files */
-%BBL6(datalist=rpadf17x_l rpadf18x_l rpadf16x_l rpadf17x rpadf18x rpadf16x);*/
+
+/* Example
+%BBL6(datalist=rpadf17x_l rpadf18x_l rpadf16x_l rpadf17x rpadf18x rpadf16x);
+*/
+
