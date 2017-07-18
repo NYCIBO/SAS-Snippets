@@ -5,6 +5,8 @@ Usage: The testlength macro loops over a base record length (baselrecl) +range f
 		To find the correct file, it relies on BORO variable being a number for more than 6 out of 10 read observations.
 		It will take some time to run, so I suggest running it over night.
 		The final record length is printed via proc means in the results window and in the log file (search "Here is a possible record lenght:").
+
+Possible improvements: I would just load BORO, and not add length to the record, but just keep %put &=l; in the if statement.
 ************************************************************************************************************************************************/
 
 * Given that the loop is too long, normal log will fill up and you'll keep getting errors if the below is not in effect.;
