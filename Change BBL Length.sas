@@ -1,3 +1,8 @@
+/***********************************************************************************************************************************************
+Author: Arash Farahani
+Date: 07-18-2017
+Usage: The BBL6 macro changes the lengths of boro block lot to 6. This ensures correct merges with other files with similar BBL length.
+************************************************************************************************************************************************/
 
 %macro BBL6(datalist=, in=M:\Large Agency Data\Property Tax\RPAD\,out= M:\Large Agency Data\Property Tax\RPAD\);
  libname inlib "&in";
