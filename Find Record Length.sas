@@ -10,7 +10,7 @@ Possible improvements: I would just load BORO, and not add length to the record,
 ************************************************************************************************************************************************/
 
 * Given that the loop is too long, normal log will fill up and you'll keep getting errors if the below is not in effect.;
-proc printto log="Y:\CRT CEP Evaluation\Programs\findRL.log";
+proc printto log="Y:\CRT CEP Evaluation\Programs\Logs\findRL.log";
 run;
 /*proc printto;
 run;*/
