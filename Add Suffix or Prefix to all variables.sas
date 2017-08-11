@@ -40,21 +40,24 @@ quit;
 
 */
 
-%macro remove_pre_suf(library=,dataset=,prefix=,suffix=);
+%macro remove_suf(library=,dataset=,suffix=);
 /* Source:https://stackoverflow.com/questions/41083555/sas-create-a-macro-that-add-suffix-to-variables-in-a-dataset
 	It should be modified to take in variable list -AF.
 */
 
 * potentially use the next statement to create a new file (instead of replacing it).;
-%let new_dataset=sysfunc(cats("no&prefix.","&dataset","no&suffix."));
+%let new_dataset=sysfunc(cats("&dataset","no&suffix_.suf"));
+
 
 %local rename_list;
-proc sql noprint;
-  select catx('=',tranwrd(tranwrd(name, "&suffix",""), "&prefix",""),name)
-    into :rename_list separated by ' ' 
+proc sql;
+  select cats(name, '=', tranwrd(name, "&suffix",""))
+    into :rename_list separated by ' '
   from dictionary.columns
   where libname = %upcase("&library")
-    and memname = %upcase("&dataset")
+    and memname = %upcase("&dataset") 
+	and name~=tranwrd(name, "&suffix","")
+	and substr(name,length(name)-length("&suffix")+1,length("&suffix"))="&suffix"
   ;
 quit;
 
