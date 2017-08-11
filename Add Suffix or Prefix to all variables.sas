@@ -7,7 +7,7 @@
 
 
 
-%macro change_names(library=,dataset=,prefix=,suffix=);
+%macro add_pre_suf(library=,dataset=,prefix=,suffix=);
 /* Source:https://stackoverflow.com/questions/41083555/sas-create-a-macro-that-add-suffix-to-variables-in-a-dataset
 	It should be modified to take in variable list -AF.
 */
@@ -33,9 +33,42 @@ proc datasets library=&library nolist nodetails;
 quit;
 %end;
 %else %put WARNING: Did not find any variables for &library..&dataset..;
-%mend change_names;
+%mend add_pre_suf;
 
 /* Example:
-%change_names(library=WORK,dataset=RPAD01_OLD,suffix=_o);
+%add_pre_suf(library=WORK,dataset=RPAD01_OLD,suffix=_o);
+
+*/
+
+%macro remove_pre_suf(library=,dataset=,prefix=,suffix=);
+/* Source:https://stackoverflow.com/questions/41083555/sas-create-a-macro-that-add-suffix-to-variables-in-a-dataset
+	It should be modified to take in variable list -AF.
+*/
+
+* potentially use the next statement to create a new file (instead of replacing it).;
+%let new_dataset=sysfunc(cats("no&prefix.","&dataset","no&suffix."));
+
+%local rename_list;
+proc sql noprint;
+  select catx('=',tranwrd(tranwrd(name, "&suffix",""), "&prefix",""),name)
+    into :rename_list separated by ' ' 
+  from dictionary.columns
+  where libname = %upcase("&library")
+    and memname = %upcase("&dataset")
+  ;
+quit;
+
+%if (&sqlobs) %then %do;
+proc datasets library=&library nolist nodetails;
+  modify &dataset;
+    rename &rename_list;
+  run;
+quit;
+%end;
+%else %put WARNING: Did not find any variables for &library..&dataset..;
+%mend remove_pre_suf;
+
+/* Example:
+%remove_pre_suf(library=WORK,dataset=RPAD01_OLD,suffix=BC);
 
 */
