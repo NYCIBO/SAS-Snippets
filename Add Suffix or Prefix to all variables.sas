@@ -1,4 +1,4 @@
-/**************************************************************************************
+﻿/**************************************************************************************
 /* Created by Arash Farahani
 /* Date: 7/25/2017
 /* Usage: Add prefix or suffix to all variables in a dataset.
@@ -7,7 +7,7 @@
 
 
 
-%macro add_pre_suf(library=,dataset=,prefix=,suffix=);
+%macro add_pre_suf(library=,dataset=,prefix=,suffix=,replace=1);
 /* Source:https://stackoverflow.com/questions/41083555/sas-create-a-macro-that-add-suffix-to-variables-in-a-dataset
 	It should be modified to take in variable list -AF.
 */
@@ -26,11 +26,26 @@ proc sql noprint;
 quit;
 
 %if (&sqlobs) %then %do;
-proc datasets library=&library nolist nodetails;
-  modify &dataset;
-    rename &rename_list;
-  run;
-quit;
+	%if &replace.=0 %then %do;
+		DATA &library..&prefix.&dataset.&suffix;
+			set &library..&dataset;
+		RUN;
+
+	proc datasets library=&library nolist nodetails;
+	  modify &prefix.&dataset.&suffix;
+	    rename &rename_list;
+	  run;
+	quit;
+	%end;
+
+	%if &replace.=1 %then %do;
+		proc datasets library=&library nolist nodetails;
+		  modify &dataset;
+		    rename &rename_list;
+		  run;
+		quit;
+	%end;
+
 %end;
 %else %put WARNING: Did not find any variables for &library..&dataset..;
 %mend add_pre_suf;
